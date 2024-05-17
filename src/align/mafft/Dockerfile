@@ -26,4 +26,7 @@ RUN apt-get update && \
     apt-get autoremove -y && \
     apt-get clean 
 
-ENTRYPOINT [ "/usr/local/bin/mafft" ]
+# export path
+ENV PATH /usr/local/bin:${PATH}
+
+RUN echo "export PATH=$PATH" > /etc/environment
