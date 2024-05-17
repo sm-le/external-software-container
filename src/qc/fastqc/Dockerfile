@@ -4,7 +4,7 @@ LABEL maintainer=smlee
 # https://github.com/s-andrews/FastQC/releases::FASTQC VERSION
 ENV VERSION 0.12.1
 ENV PACKAGES unzip default-jre perl wget
-# Install Salmon
+# Install FastQC
 RUN apt-get update && \
     apt-get install -y \
     ${PACKAGES} && \
