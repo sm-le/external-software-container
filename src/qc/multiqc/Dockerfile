@@ -10,3 +10,7 @@ RUN apt-get update && \
     git && \
     pip install --quiet --upgrade pip && \
     pip install git+https://github.com/MultiQC/MultiQC.git@v${VERSION}
+
+RUN echo "export PATH=$PATH" > /etc/environment
+
+CMD [ "python" ]
