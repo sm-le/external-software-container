@@ -1,16 +1,9 @@
-FROM python:3.11-slim-bullseye
+FROM continuumio/miniconda3:latest
 LABEL maintainer=smlee
 
-# https://github.com/Russel88/CRISPRCasTyper?tab=readme-ov-file#cctyperhow: CRISPRCasTyper VERSION
-ENV VERSION 1.8.0
-
-# Install MultiQC
-RUN apt-get update && \
-    apt-get install -y \
-    git && \
-    pip install --quiet --upgrade pip && \
-    pip install git+https://github.com/sm-le/cctyper-fork.git@fix_drawsvg
-
-RUN echo "export PATH=$PATH" > /etc/environment
+RUN conda create -n cctyper -c conda-forge -c bioconda -c russel88 cctyper
+RUN echo "source activate cctyper" > ~/.bashrc
+ENV PATH /opt/conda/envs/cctyper/bin:$PATH
+ENV CCTYPER_DB "/opt/conda/envs/cctyper/db"
 
 CMD [ "python" ]

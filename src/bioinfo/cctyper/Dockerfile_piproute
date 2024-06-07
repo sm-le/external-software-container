@@ -1,0 +1,34 @@
+FROM python:3.11-slim-bullseye
+LABEL maintainer=smlee
+
+# https://github.com/Russel88/CRISPRCasTyper?tab=readme-ov-file#cctyperhow: CRISPRCasTyper VERSION
+ENV VERSION 1.8.0
+ENV BRANCH fix_drawsvg
+ENV CCTYPER_DB "/home/bin/data/"
+
+# Install Minced
+RUN apt-get update && \
+    apt-get install -y \
+    default-jre curl && \
+
+# Install CCtyper
+RUN apt-get update && \
+    apt-get install -y \
+    git curl unzip prodigal sed grep && \
+    pip install --quiet --upgrade pip hmmer && \
+    pip install git+https://github.com/sm-le/cctyper-fork.git@${BRANCH} && \
+    mkdir -p /home/bin && \
+    cd /home/bin && \
+    mkdir data && \
+    curl -OL https://github.com/sm-le/cctyper-fork/archive/refs/heads/${BRANCH}.zip && \
+    unzip ${BRANCH}.zip && \
+    tar -zxvf cctyper-fork-${BRANCH}/data/Profiles.tar.gz && \
+    rm cctyper-fork-${BRANCH}/data/Profiles.tar.gz && \
+    mv Profiles data/ && \
+    mv cctyper-fork-${BRANCH}/data/* data/ && \
+    rm ${BRANCH}.zip && \
+    rm -r cctyper-fork-${BRANCH} 
+
+RUN echo "export PATH=$PATH" > /etc/environment
+
+CMD [ "python" ]
