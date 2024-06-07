@@ -9,7 +9,6 @@ RUN apt-get update && \
     apt-get install -y \
     git && \
     pip install --quiet --upgrade pip && \
-    pip install --quiet drawsvg && \
     pip install git+https://github.com/sm-le/cctyper-fork.git
 
 RUN echo "export PATH=$PATH" > /etc/environment
